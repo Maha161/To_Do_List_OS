@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    container_name: todo-api
+    ports:
+      - "5000:5000"  
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - DATABASE_URL=postgresql://todo_user:todo_password@db:5432/todo_db  
+    depends_on:
+      - db  
+
+  db:
+    image: postgres:13  
+    container_name: todo-db
+    environment:
+      - POSTGRES_USER=todo_user
+      - POSTGRES_PASSWORD=todo_password
+      - POSTGRES_DB=todo_db
+    volumes:
+      - todo_data:/var/lib/postgresql/data  
+
+volumes:
+  todo_data:  
